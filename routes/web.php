@@ -25,14 +25,16 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
 
+    Route::get('/dashboard',[\App\Http\Controllers\DashboardController::class,'index'])->name('dashboard');
+
+    Route::get('/export-dashboard',[\App\Http\Controllers\DashboardController::class,'exportDashboard'])->name('dashboard.export');
+
     Route::resource('/incidents',\App\Http\Controllers\IncidentController::class);
     Route::resource('/teams',\App\Http\Controllers\TeamController::class);
+    Route::post('/incident-image-upload',[\App\Http\Controllers\IncidentController::class,'uploadImage']);
     Route::resource('/respondents',\App\Http\Controllers\RespondentController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

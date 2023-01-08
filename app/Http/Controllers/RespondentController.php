@@ -96,6 +96,6 @@ class RespondentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Respondent::find($id)->delete();
     }
 }
